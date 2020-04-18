@@ -68,8 +68,6 @@ const e = (ast, register, memory) => {
 
   register[resultRegisterKey] = evaluate(ast);
   return register;
-  // console.log(`${resultRegisterKey} = ${register[resultRegisterKey]}`);
-  // return register[resultRegisterKey];
 };
 
 
@@ -81,13 +79,6 @@ const compile = ast => {
   return compile(ast);
 };
 
-// const program = 'sum r3 m + r1 r2';
-
-
-// console.log(evaluate(parse(lex(program))));
-
-
-// console.log(compile(parse(lex(program))));
 
 module.exports = {
   lex,

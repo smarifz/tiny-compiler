@@ -44,6 +44,8 @@ try {
 			register = loadRegister(line.slice(2))
 		}else{
 
+			console.log(`\n===================NEXT LINE==============================\n\n`)
+			// print OP table =====================================================================================
 			const opTable = new Table({
 				                          head: ['Address', 'Source']
 				                          , colWidths: [50, 50]
@@ -52,34 +54,32 @@ try {
 			opTable.push([ascii2Hex(line), line]);
 			console.log(opTable.toString());
 
-			// ===================================================================================================
 
-
+			// print register (before) table =======================================================================
 			const registerBeforeTable = new Table();
 			registerBeforeTable.push(
-				{ 'Register (before)': 'Value' }
+				{ 'Register (before)': 'Value (hex/ascii)' }
 			);
-			for(let reg in register){
-				registerBeforeTable.push({reg: `${Converter.dec2hex(register[reg])}`})
+			for(let r in register){
+				registerBeforeTable.push({ [r] : `0x${Converter.dec2hex(register[r])} / ${register[r]}`})
 			}
+
 			console.log(registerBeforeTable.toString());
 
 
-			// ===================================================================================================
-
+			// compiler ===========================================================================================
 			const tokens = tiny.lex(line);
 			const ast = tiny.parse(tokens);
 			register = tiny.e(ast, register, [5,6,7]);
 
 
-			// ===================================================================================================
-
+			// print register (after) table =======================================================================
 			const registerAfterTable = new Table();
 			registerAfterTable.push(
-				{ 'Register (after)': 'Value' }
+				{ 'Register (after)': 'Value (hex/ascii)' }
 			);
-			for(let reg in register){
-				registerAfterTable.push({reg: `${Converter.dec2hex(register[reg])}`})
+			for(let r in register){
+				registerAfterTable.push({ [r] : `0x${Converter.dec2hex(register[r])} / ${register[r]}`})
 			}
 			console.log(registerAfterTable.toString());
 
