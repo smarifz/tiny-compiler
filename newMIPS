@@ -1,0 +1,72 @@
+ADD
+
+1) Register - Regs[R1] <- Regs[R1] + Regs[R2]    
+
+	Register + register
+
+		Add R1, R2     
+		+ r1 r2
+
+		Add R1, R2, R3
+		+ r1 r2 r3
+
+2) Immediate - Reg[R1] <- Reg[R1] + 3    
+	
+	Register + constant
+	
+		Add R1, #     
+		+ #1 #2
+
+		Add R1, #, #  
+		+ #1 #2 #3
+
+
+
+3) Register Indirect - Reg[R1] <- Reg[R1] + (R2)    
+	
+	Register + Memory & Register
+	
+		Add R1, (R2)     
+		+ r1 m r2
+
+		Add R1, (R2), (R3)     
+		+ r1 m r2 m r3
+
+
+
+4) Indexed - Reg[R1] <- Reg[R1] + Memory[Reg[R1] + Reg[R2]]
+
+	Register + Memory & Register
+
+		Add R3, (R1 + R2)
+		+ r3 (r1 + r2)
+
+		Add R4, (R1 + R2 + R3)
+		+ r4 (r1 + r2 + r3)
+
+
+5) Direct or absolute - Reg[R1] <- Reg[R1] + Memory[9]
+
+	Register + memory 
+
+		Add R1, (9)
+		+ r1 (9)
+		
+		Add R1, R2, (9)
+		+ r1 r2 (9)
+
+
+
+
+
+SUBTRACT
+-
+
+MULTIPLY
+*
+
+
+MOVE
+
+
+COPY
