@@ -6,6 +6,7 @@ const Op = Symbol('op');
 const Num = Symbol('num');
 const Register = Symbol('register');
 const Memory = Symbol('memory');
+const Copy = Symbol('copy');
 
 const parse = tokens => {
 
@@ -35,6 +36,8 @@ const parse = tokens => {
       return parseNum ();
     } else if (token.startsWith ('m')) {
       return parseMemory();
+    } else if(token.startsWith('cp')){
+      return parseGeneric(Copy);
     } else {
       return parseGeneric (Op);
     }
@@ -51,8 +54,8 @@ const e = (ast, register, memory) => {
     const opAcMap = {
       '+': args => args.reduce((a, b) => a + b, 0),
       '-': args => args.reduce((a, b) => a - b),
-      memory: args => args.reduce((a, b) => a + b, 0),
-      mul: args => args.reduce((a, b) => a * b, 1)
+      '*': args => args.reduce((a, b) => a * b, 1),
+      'cp': args => args.reduce((a, b) => b, 0)
     };
 
     if (ast.type === Num) {
@@ -61,22 +64,13 @@ const e = (ast, register, memory) => {
       return parseInt(register[`r${ast.val}`]);
     }else if(ast.type === Memory){
       return memory[ast.val];
-    }
+    }else if(ast.type === Copy)
 
     return opAcMap[ast.val](ast.expr.map(evaluate));
   };
 
   register[resultRegisterKey] = evaluate(ast);
   return register;
-};
-
-
-const compile = ast => {
-  const opMap = { sum: '+', mul: '*', sub: '-', div: '/' };
-  const compileNum = ast => ast.val;
-  const compileOp = ast => `(${ast.expr.map(compile).join(' ' + opMap[ast.val] + ' ')})`;
-  const compile = ast => ast.type === Num ? compileNum(ast) : compileOp(ast);
-  return compile(ast);
 };
 
 
