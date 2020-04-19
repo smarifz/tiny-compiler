@@ -64,7 +64,7 @@ const e = (ast, register, memory) => {
       return parseInt(register[`r${ast.val}`]);
     }else if(ast.type === Memory){
       return memory[ast.val];
-    }else if(ast.type === Copy)
+    }
 
     return opAcMap[ast.val](ast.expr.map(evaluate));
   };

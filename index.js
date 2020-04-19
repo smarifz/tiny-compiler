@@ -36,7 +36,8 @@ try {
 		r1: 0x00000000,
 		r2: 0x00000000,
 		r3: 0x00000000
-	};
+	},
+	memory = [5, 6, 7];
 
 	// print all lines
 	lines.forEach((line) => {
@@ -54,6 +55,16 @@ try {
 			opTable.push([ascii2Hex(line), line]);
 			console.log(opTable.toString());
 
+			// print memory table =======================================================================
+			const memoryTable = new Table();
+			memoryTable.push(
+				{ 'Memory': 'Value (hex/ascii)' }
+			);
+			for(let m in memory){
+				memoryTable.push({ [m] : `0x${Converter.dec2hex(memory[m])} / ${memory[m]}`})
+			}
+
+			console.log(memoryTable.toString());
 
 			// print register (before) table =======================================================================
 			const registerBeforeTable = new Table();
@@ -61,7 +72,7 @@ try {
 				{ 'Register (before)': 'Value (hex/ascii)' }
 			);
 			for(let r in register){
-				registerBeforeTable.push({ [r] : `0x${Converter.dec2hex(register[r])} / ${register[r]}`})
+				registerBeforeTable.push({ [r] : `0x${Converter.dec2hex(parseInt(register[r]))} / ${register[r]}`})
 			}
 
 			console.log(registerBeforeTable.toString());
@@ -70,7 +81,7 @@ try {
 			// compiler ===========================================================================================
 			const tokens = tiny.lex(line);
 			const ast = tiny.parse(tokens);
-			register = tiny.e(ast, register, [5,6,7]);
+			register = tiny.e(ast, register, memory);
 
 
 			// print register (after) table =======================================================================
@@ -79,7 +90,7 @@ try {
 				{ 'Register (after)': 'Value (hex/ascii)' }
 			);
 			for(let r in register){
-				registerAfterTable.push({ [r] : `0x${Converter.dec2hex(register[r])} / ${register[r]}`})
+				registerAfterTable.push({ [r] : `0x${Converter.dec2hex(parseInt(register[r]))} / ${register[r]}`})
 			}
 			console.log(registerAfterTable.toString());
 
